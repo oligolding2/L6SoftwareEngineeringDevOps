@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2>Alter Record Details</h2>
+<form class="interface-form" method="POST">
+    <h3>Enter Mortgage ID of Record to Update:</h3>
+    <input type="number" name="mortgage-id" placeholder="Enter Mortgage ID To Change:">
+    <br>
+    <input type="text" name="name" placeholder="Enter New Name:">
+    <input type="text" name="location" placeholder="Enter New Property Location:">
+    <input type="number" name="value" placeholder="Enter New Mortgage Value:">
+    <button type="submit" class="update-change-button">Update Record</button>
+    <button type="submit" class="return-home-btn" formaction="{{ url_for('home') }}">Return to Home</button>
+    </div>
+</form>
+
+{% endblock %}

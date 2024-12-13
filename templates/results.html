@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2>Display Records</h2>
+<form class="interface-form">
+    <button type="submit" class="return-home-btn" formaction="{{ url_for('home') }}">Return to Home</button>
+    <h3>Results:</h3>
+    <div class="search-results">
+        <table>
+            <thead>
+                <tr>
+                    <th>Mortgage ID</th>
+                    <th>Owner</th>
+                    <th>Location</th>
+                    <th>Value</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in results %}
+                <tr>
+                    <td>{{ row[0] }}</td>
+                    <td>{{ row[1] }}</td>
+                    <td>{{ row[2] }}</td>
+                    <td>£{{ row[3] }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</form>
+
+{% endblock %}

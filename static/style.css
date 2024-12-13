@@ -1,0 +1,110 @@
+@import url('https://fonts.googleapis.com/css2?family=Barlow:wght@200;300;400;500&display=swap');
+
+html,body{
+    height: 100%;
+}
+
+body {
+    place-items: center;
+    margin: 0 auto;
+    background-image: url(background-area.svg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: grid;
+    font-family: "Barlow";
+    color: black;
+    animation: rotate 6s infinite alternate-reverse linear;
+}
+
+.interface-area {
+    background-color: white;
+    border-radius: 10px;
+    position: relative;
+    text-align: center;
+    padding: 25px 30px 35px;
+    width: 400px;
+}
+
+.interface-form, .logoff-form{
+    width: 100%;
+    display: grid;
+    gap: 10px;
+    margin: 0;
+    flex-direction: column;
+}
+
+.checkboxes {
+    width: inherit;
+    gap: inherit;
+    display: flex;
+    flex-direction: column;
+    text-align:start;
+    padding-left: 30px;
+}
+
+.modal-box {
+    width: 800px;
+    border-radius: 20px;
+}
+
+.modal-box::backdrop {
+    opacity: 0.4;
+    background-color: white;
+}
+
+.interface-form > input, .interface-form > button, .modal-box > button, .interface-form > a, .modal-cancel-btn, .confirm-deletion-btn {
+    border-radius: 10px;
+    font-size: 16px;
+    padding: 10px;
+    width: 80%;
+    margin: 10px auto;
+    font-family: inherit;
+    align-self: center;
+    justify-content: center;
+    cursor: pointer;
+    border: 0.5px solid black;
+    outline: none;
+    text-decoration: none;
+    color: black;
+}
+
+.interface-form > input[type='checkbox']{
+    text-align: left;
+    justify-content: left;
+}
+
+.search-results > table,tbody,thead{
+    width: 100%;
+    margin: 0 auto;
+    border-collapse: collapse;
+    border: 1px solid black;
+    flex-direction: column;
+}
+
+.search-results > table > thead {
+    background-color: rgb(120, 201, 175);
+}
+
+.search-results > table > tbody > tr:nth-child(odd) {
+    background-color: white;
+}
+
+.search-results > table > tbody > tr:nth-child(even) {
+    background-color: lightgray;
+}
+
+.return-home-btn {
+    background-color: aquamarine;
+}
+
+.return-home-btn:hover {
+    background-color: purple;
+    color: white
+}
+
+.confirm-deletion-btn:hover {
+    background-color: red;
+    font-weight: bold;
+    color: white;
+    border: 2px solid black;
+}

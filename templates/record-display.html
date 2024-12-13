@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2>Display Records</h2>
+<form class="interface-form" method="POST">
+    <input type="number" name="mortgage-id" placeholder="Enter Mortgage ID:">
+    <button type="submit" name="search-btn">
+        Search
+    </button>
+    <button type="submit" name="display-all-btn">
+        Display All
+    </button>
+    <button type="submit" class="return-home-btn" formaction="{{ url_for('home') }}">Return to Home</button>
+</form>
+
+{% endblock %}

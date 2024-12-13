@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oli Golding Assignment</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+    <div class="interface-area">
+        {% if logged_in %}
+        <form class="interface-form">
+            <button type="button" class="logoff-button" id="logoff-button">
+                Log Off
+            </button>
+        </form>
+        <dialog class="logoff-box" id="logoff-box">
+            <form class="modal-box">
+                <h3>Please confirm you'd like to log off</h3>
+                <button type="submit" id="confirm-logoff" formaction="{{ url_for('login') }}"
+                    class="confirm-logoff">Yes</button>
+                <button type="button" id="cancel-logoff" class="cancel-logoff">Cancel</button>
+            </form>
+        </dialog>
+        {% endif %}
+
+        {% block content %}
+        {% endblock %}
+    </div>
+        {% block jsscript %}
+    <script src="/static/base.js"></script>
+        {% endblock %}
+</body>
+
+</html>

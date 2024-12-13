@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2>Register</h2>
+<h3>Welcome user! Register below:</h3>
+<form class="interface-form" method="POST">
+    <input type="text" id="register-username" class="register-username" name="register-username" placeholder="Enter your username:">
+    <input type="password" id="register-password" class="register-password" name="register-password" placeholder="Enter your password:">
+
+    <input type="text" id="admin-token" name="admin-token" class="admin-token" placeholder="Enter admin token:" style="display: none;">
+
+    <div class="checkboxes">
+        <label for="register-show-password">
+            <input type="checkbox" id="register-show-password" class="register-show-password" placeholder="Show password">
+            Show password
+        </label>
+        <label for="register-as-admin">
+            <input type="checkbox" id="admin-register" class="admin-register" name="admin-register" placeholder="Register as Admin">
+            Register as Admin
+        </label>
+    </div>
+    <button type="submit" class="register-confirm">Register</button>
+    <a href="{{ url_for('login') }}" class="return-home-btn">Back to Login</a>
+</form>
+
+<script src="/static/register.js"></script>
+
+{% endblock %}

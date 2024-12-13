@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2>Add Record</h2>
+<form class="interface-form" method="POST">
+    <input type="text" name="owner-name" placeholder="Enter Owner Name:">
+    <input type="text" name="property-location" placeholder="Enter Property Location:">
+    <input type="number" name="property-value" placeholder="Enter Property Value:">
+    <button type="submit" class="confirm-add-button">Create Record</button>
+    <button type="submit" class="return-home-btn" formaction="{{ url_for('home') }}">Return to Home</button>
+</form>
+
+{% endblock %}

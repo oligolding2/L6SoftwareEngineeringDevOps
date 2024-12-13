@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2>Delete Record</h2>
+<form class="interface-form" method="POST">
+    <h3>Enter Mortgage ID of Record to Delete:</h3>
+    <input type="number" name="mortgage-id" placeholder="Enter Mortgage ID:">
+    <button class="search-record" id="search-record" type="button">Search Record</button>
+    <button type="submit" class="return-home-btn" formaction="{{ url_for('home') }}">Return to Home</button>
+    <dialog class="confirm-box" id="confirm-box">
+        <h3>Please confirm you'd like to delete this record</h3>
+        <button type="submit" id="modal-delete-button" class="confirm-deletion-btn">Confirm Deletion</button>
+        <button type="button" id="modal-cancel-btn" class="modal-cancel-btn">Cancel</button>
+    </dialog>
+</form>
+
+<script src="/static/delete_record.js"></script>
+
+{% endblock %}
+

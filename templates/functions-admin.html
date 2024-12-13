@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <h2>Welcome {{username}}</h2>
+    <h3>Please select a function from below:</h3>
+    <form class="interface-form">
+        <button class="display-mortgage-btn" type="submit" formaction="{{ url_for('display_record') }}">
+            Display Record
+        </button>
+        <button class="add-mortgage-btn" type="submit" formaction="{{ url_for('add_record') }}">
+            Add Record
+        </button>
+        <button class="update-mortgage-btn" type="submit" formaction="{{ url_for('update_record') }}">
+            Update Record
+        </button>
+        <button class="delete-mortgage-btn" type="submit" formaction="{{ url_for('delete_record') }}">
+            Delete Record
+        </button>
+    </form>
+
+{% endblock %}

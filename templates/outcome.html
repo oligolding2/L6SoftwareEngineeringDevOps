@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2>{{outcome}}</h2>
+<form class="interface-form">
+    <div class="outcome-message">{{message}}</div>
+    <button type="submit" class="return-home-btn" style="text-transform: capitalize;"
+        formaction="{{ url_for(destination) }}">Go To {{destination}}</button>
+</form>
+
+{% endblock %}

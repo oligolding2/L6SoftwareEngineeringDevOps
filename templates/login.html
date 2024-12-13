@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2>Login</h2>
+<h3>Enter your credentials</h3>
+
+<form class="interface-form" method="post">
+    <input type="text" class="login-username" name="login-username" placeholder="Enter your username:">
+    <input type="password" class="login-password" name="login-password" placeholder="Enter your password:">
+    <a class="return-home-btn" href="{{ url_for('register') }}">New user? Register here.</a>
+    <button class="login-submit" type="submit">Login</button>
+</form>
+
+{% endblock %}
