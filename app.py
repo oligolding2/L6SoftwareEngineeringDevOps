@@ -1,11 +1,9 @@
 from functions import *
 from exceptions import CredentialError,ButtonError
 from flask import Flask, render_template, request, redirect, url_for, session
-from flask_wtf.csrf import CSRFProtect
 
 app = Flask(__name__)
-app.config.from_pyfile('settings.py',silent=True)
-csrf = CSRFProtect(app)
+app.config.from_prefixed_env()
 
 def user_logged_in():
     if 'user-data' in session:
