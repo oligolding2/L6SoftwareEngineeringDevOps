@@ -1,5 +1,6 @@
 import sqlite3,random,re
 from exceptions import CredentialError, DatabaseError
+from config import Config
 
 def check_credentials(username, password):
         login_username = validate_field("username",username,min_length=5,max_length=12,allow_numbers=True)
@@ -22,11 +23,11 @@ def validate_field(field_name,value, min_length=0, max_length=50, allow_numbers=
         if max_length and len(value) > max_length:
             raise ValueError(f"{field_name.capitalize()} cannot exceed {max_length} characters.")
         
-        return value  # Return the cleaned and validated value
+        return value  # Return the validated value
 
 def executor(query,args,query_type): #executor function which runs sql queries
         try:
-            with sqlite3.connect('static/database.db') as conn:
+            with sqlite3.connect(Config.DATABASE_URL) as conn:
                 cursor = conn.cursor()
                 match query_type:
                     case 'login':
@@ -77,7 +78,7 @@ def delete(mortgage_id):        #function to delete records from database
         args = validate_field("mortgage_id",mortgage_id, allow_numbers=True)          #arguments for executor
         return executor(query,(args,),'delete')         #delete record
 
-def create_user(username,password,admin_token):             #function to create user
+def create_user(username,password,admin_token:bool):             #function to create user
         new_credentials = check_credentials(username,password)
         admin = 1 if admin_token == "HiQA99999999" else 0
 

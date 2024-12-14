@@ -1,9 +1,10 @@
 from functions import *
 from exceptions import CredentialError,ButtonError
 from flask import Flask, render_template, request, redirect, url_for, session
+from config import Config
 
 app = Flask(__name__)
-app.config.from_prefixed_env()
+app.config.from_object(Config)
 
 def user_logged_in():
     if 'user-data' in session:
