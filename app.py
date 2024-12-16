@@ -57,6 +57,8 @@ def register():                                     #function for registering a 
             password = request.form.get('register-password','')
             admin_token = request.form.get('admin-token','')  #obtain password value from form
             create_user(username, password, admin_token)
+            session['user-data'] = login_user(username,password)
+            return redirect(url_for("home")) 
     else:
         return display_template("register.html") #display register screen
     

@@ -1,6 +1,7 @@
 import sqlite3,random,re
 from exceptions import CredentialError, DatabaseError
 from config import Config
+import secrets
 
 def check_credentials(username, password):
         login_username = validate_field("username",username,min_length=5,max_length=12,allow_numbers=True)
@@ -68,8 +69,12 @@ def update(mortgage_id,name=None,location=None,value=None): #function to update 
 
         if not fields:
             raise ValueError("No fields provided for update.")
-
-        query = f"UPDATE mortgage SET {', '.join(f'{k} = ?' for k in fields.keys())} WHERE mortgage_id = ?"
+        valid_columns = {'owner', 'location', 'value'}
+        if not set(fields.keys()).issubset(valid_columns):
+            raise ValueError("Invalid column names in the input data.")
+        
+        columns = ', '.join(f"{x} = ?" for x in fields.keys())
+        query = f"UPDATE mortgage SET {columns} WHERE mortgage_id = ?"
         args = (*fields.values(), mortgage_id)
         return executor(query, args, 'update')
 
@@ -78,14 +83,14 @@ def delete(mortgage_id):        #function to delete records from database
         args = validate_field("mortgage_id",mortgage_id, allow_numbers=True)          #arguments for executor
         return executor(query,(args,),'delete')         #delete record
 
-def create_user(username,password,admin_token:bool):             #function to create user
+def create_user(username,password,admin_token):             #function to create user
         new_credentials = check_credentials(username,password)
-        admin = 1 if admin_token == "HiQA99999999" else 0
+        admin = 1 if admin_token == Config.ADMIN_TOKEN else 0
 
         if admin_token and admin == 0:
             raise CredentialError("Invalid admin token provided.")
         
-        user_id = random.randint(0, 9999999)
+        user_id = secrets.randbelow(10_000_000)
         query = "INSERT INTO users (user_id, username, password, admin) VALUES (?, ?, ?, ?)"
         return executor(query, (user_id, new_credentials[0], new_credentials[1], admin), 'add')
 

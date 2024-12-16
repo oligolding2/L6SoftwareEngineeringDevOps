@@ -4,7 +4,9 @@ from pathlib import Path
 sys.path.append(str(Path(__file__).resolve().parent.parent))
 
 from functions import *
+from exceptions import *
 import pytest
+from config import Config
 
 def test_validate_field():
         
@@ -139,31 +141,74 @@ def test_update_no_fields(mocker):
     executor_mocker.assert_not_called()
 
 def test_create_user_valid_admin(mocker):
-    pass
+    executor_mocker = mocker.patch("functions.executor")
+    mocker_return_value = "Success"
+
+    executor_mocker.return_value = mocker_return_value
+
+    assert create_user("validadmin","validpassword",Config.ADMIN_TOKEN) == mocker_return_value
+
+    args, _ = executor_mocker.call_args
+    user_id, username, password, admin = args[1]
+    assert 0 <= user_id <= 9999999
+
+    executor_mocker.assert_called_once_with(
+        "INSERT INTO users (user_id, username, password, admin) VALUES (?, ?, ?, ?)",
+        (user_id,  # Randomly generated user ID
+        "validadmin",
+        "validpassword",
+        1),
+        "add"
+    )
+
 
 def test_create_user_invalid_admin(mocker):
-    pass
+    with pytest.raises(CredentialError,match="Invalid admin token provided."):
+        create_user(username="invalidadmin",password="validpassword",admin_token="invalidadmintoken")
+
+
 
 def test_create_user_regular_user(mocker):
     executor_mocker = mocker.patch("functions.executor")
     executor_mocker.return_value = "Success"
-    assert create_user("testuser","testpassword",0) == "Success"
+    assert create_user("testuser","testpassword",None) == "Success"
 
+    args, _ = executor_mocker.call_args
+    user_id, username, password, admin = args[1]
+    assert 0 <= user_id <= 9999999
     executor_mocker.assert_called_once_with(
         "INSERT INTO users (user_id, username, password, admin) VALUES (?, ?, ?, ?)",
-        ####replace,  # Randomly generated user ID
+        (user_id,  # Randomly generated user ID
         "testuser",
         "testpassword",
-        0
+        0),
+        "add"
     )
 
 def test_login_user_valid_credentials(mocker):
-    pass
+    executor_mocker = mocker.patch("functions.executor")
+    mocker_return_value = ("1","validuser","testvalidpassword",0)
+    executor_mocker.return_value = mocker_return_value
 
-def test_loginuser_invalid_credentials(mocker):
-    pass
+    assert login_user("validuser","testvalidpassword") == mocker_return_value
 
+    executor_mocker.assert_called_once_with(
+        "SELECT * FROM users WHERE username = ? AND password = ?",
+        ("validuser", "testvalidpassword"),
+        "login"
+    )
 
+def test_login_user_invalid_credentials(mocker):
+    executor_mocker = mocker.patch("functions.executor",return_value = None)
+
+    with pytest.raises(CredentialError,match="no results found in database."):
+        login_user("invaliduser","invalidpassword")
+
+    executor_mocker.assert_called_once_with(
+        "SELECT * FROM users WHERE username = ? AND password = ?",
+        ("invaliduser", "invalidpassword"),
+        "login"
+    )
 
     
 
