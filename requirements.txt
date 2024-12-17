@@ -1,7 +1,3 @@
 python-dotenv
-os
 sqlite3
-random
-re
-secrets
 flask
