@@ -1,11 +1,10 @@
 from functions import *
 from exceptions import CredentialError,ButtonError
 from flask import Flask, render_template, request, redirect, url_for, session
-from flask_wtf.csrf import CSRFProtect
+from config import Config
 
 app = Flask(__name__)
-app.config.from_pyfile('settings.py',silent=True)
-csrf = CSRFProtect(app)
+app.config.from_object(Config)
 
 def user_logged_in():
     if 'user-data' in session:
@@ -58,6 +57,8 @@ def register():                                     #function for registering a 
             password = request.form.get('register-password','')
             admin_token = request.form.get('admin-token','')  #obtain password value from form
             create_user(username, password, admin_token)
+            session['user-data'] = login_user(username,password)
+            return redirect(url_for("home")) 
     else:
         return display_template("register.html") #display register screen
     

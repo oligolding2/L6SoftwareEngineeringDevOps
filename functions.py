@@ -1,5 +1,7 @@
 import sqlite3,random,re
 from exceptions import CredentialError, DatabaseError
+from config import Config
+import secrets
 
 def check_credentials(username, password):
         login_username = validate_field("username",username,min_length=5,max_length=12,allow_numbers=True)
@@ -22,11 +24,14 @@ def validate_field(field_name,value, min_length=0, max_length=50, allow_numbers=
         if max_length and len(value) > max_length:
             raise ValueError(f"{field_name.capitalize()} cannot exceed {max_length} characters.")
         
-        return value  # Return the cleaned and validated value
+        if re.search(r"['\";=()--/*]", value):
+            raise ValueError(f"{field_name.capitalize()} contains invalid characters.")
+        
+        return value  # Return the validated value
 
 def executor(query,args,query_type): #executor function which runs sql queries
         try:
-            with sqlite3.connect('static/database.db') as conn:
+            with sqlite3.connect(Config.DATABASE_URL) as conn:
                 cursor = conn.cursor()
                 match query_type:
                     case 'login':
@@ -67,8 +72,12 @@ def update(mortgage_id,name=None,location=None,value=None): #function to update 
 
         if not fields:
             raise ValueError("No fields provided for update.")
-
-        query = f"UPDATE mortgage SET {', '.join(f'{k} = ?' for k in fields.keys())} WHERE mortgage_id = ?"
+        valid_columns = {'owner', 'location', 'value'}
+        if not set(fields.keys()).issubset(valid_columns):
+            raise ValueError("Invalid column names in the input data.")
+        
+        columns = ', '.join(f"{x} = ?" for x in fields.keys())
+        query = f"UPDATE mortgage SET {columns} WHERE mortgage_id = ?"
         args = (*fields.values(), mortgage_id)
         return executor(query, args, 'update')
 
@@ -79,12 +88,12 @@ def delete(mortgage_id):        #function to delete records from database
 
 def create_user(username,password,admin_token):             #function to create user
         new_credentials = check_credentials(username,password)
-        admin = 1 if admin_token == "HiQA99999999" else 0
+        admin = 1 if admin_token == Config.ADMIN_TOKEN else 0
 
         if admin_token and admin == 0:
             raise CredentialError("Invalid admin token provided.")
         
-        user_id = random.randint(0, 9999999)
+        user_id = secrets.randbelow(10_000_000)
         query = "INSERT INTO users (user_id, username, password, admin) VALUES (?, ?, ?, ?)"
         return executor(query, (user_id, new_credentials[0], new_credentials[1], admin), 'add')
 
