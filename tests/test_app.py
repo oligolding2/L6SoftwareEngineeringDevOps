@@ -3,7 +3,7 @@ from pathlib import Path
 
 sys.path.append(str(Path(__file__).resolve().parent.parent))
 
-from exceptions import *
+from utils.exceptions import *
 import pytest
 import os
 

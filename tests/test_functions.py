@@ -4,9 +4,9 @@ from pathlib import Path
 sys.path.append(str(Path(__file__).resolve().parent.parent))
 
 from functions import *
-from exceptions import *
+from utils.exceptions import *
 import pytest
-from config import Config
+from utils.config import Config
 
 def test_validate_field():
         

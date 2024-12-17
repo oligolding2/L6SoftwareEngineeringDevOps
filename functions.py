@@ -1,6 +1,6 @@
-import sqlite3,random,re
-from exceptions import CredentialError, DatabaseError
-from config import Config
+import sqlite3,re
+from utils.exceptions import CredentialError, DatabaseError
+from utils.config import Config
 import secrets
 
 def check_credentials(username, password):

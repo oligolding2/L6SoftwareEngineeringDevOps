@@ -1,7 +1,7 @@
 from functions import *
-from exceptions import CredentialError,ButtonError
+from utils.exceptions import CredentialError,ButtonError
 from flask import Flask, render_template, request, redirect, url_for, session
-from config import Config
+from utils.config import Config
 
 app = Flask(__name__)
 app.config.from_object(Config)
