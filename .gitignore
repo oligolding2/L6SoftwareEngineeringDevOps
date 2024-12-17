@@ -1,9 +1,18 @@
-.env
-
-venv/
-
-#Ignore byte compiled python files
-
+### Python ###
+# Byte-compiled / optimized / DLL files
 __pycache__/
+*.py[cod]
+*$py.class
+
+# Unit test / coverage reports
 .pytest_cache/
+
+# Flask stuff:
+instance/
+.webassets-cache
+
+# Environments
+.env
+.venv/
+
 
