@@ -1,4 +1,4 @@
-dotenv
+python-dotenv
 os
 sqlite3
 random
