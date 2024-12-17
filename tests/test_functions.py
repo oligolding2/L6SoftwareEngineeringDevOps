@@ -12,17 +12,17 @@ def test_validate_field():
         
         # Check that the function is functioning correctly for a valid case
 
-    assert validate_field("validcase", "test_user", min_length=6,max_length=12,allow_numbers=False) == "test_user"
+    assert validate_field("validcase", "testuser", min_length=6,max_length=12,allow_numbers=False) == "testuser"
         
         # Check function correctly throws an exception for a case where value is too short
 
     with pytest.raises(ValueError,match="must be at least"):
-        validate_field("tooshortcase", "test_user", min_length=10, max_length=15,allow_numbers=False)
+        validate_field("tooshortcase", "testuser", min_length=10, max_length=15,allow_numbers=False)
 
         # Check function correctly throws an exception for a case where value is too long
 
     with pytest.raises(ValueError,match="cannot exceed"):
-        validate_field("toolongcase", "test_user", min_length=2, max_length=6,allow_numbers=False)
+        validate_field("toolongcase", "testuser", min_length=2, max_length=6,allow_numbers=False)
 
         # Check function correctly throws an exception for a case which contains numbers
 

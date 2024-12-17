@@ -1,0 +1,6 @@
+http://localhost:5000/login?username=test&password=test123
+http://localhost:5000/register
+http://localhost:5000/add_record
+http://localhost:5000/display_record
+http://localhost:5000/update_record
+http://localhost:5000/delete_record?mortgage_id=999

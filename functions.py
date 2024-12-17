@@ -24,6 +24,9 @@ def validate_field(field_name,value, min_length=0, max_length=50, allow_numbers=
         if max_length and len(value) > max_length:
             raise ValueError(f"{field_name.capitalize()} cannot exceed {max_length} characters.")
         
+        if re.search(r"['\";=()--/*]", value):
+            raise ValueError(f"{field_name.capitalize()} contains invalid characters.")
+        
         return value  # Return the validated value
 
 def executor(query,args,query_type): #executor function which runs sql queries
