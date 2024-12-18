@@ -4,3 +4,4 @@ pytest
 pytest_mock
 safety
 bandit
+gunicorn
