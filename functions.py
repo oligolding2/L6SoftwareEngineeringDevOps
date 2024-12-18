@@ -7,7 +7,6 @@ def check_credentials(username, password):
         login_username = validate_field("username",username,min_length=5,max_length=12,allow_numbers=True)
         login_password = validate_field("password",password,min_length=7,max_length=None,allow_numbers=True)
         return login_username, login_password
-    
 
 def validate_field(field_name,value, min_length=0, max_length=50, allow_numbers=False):
         if not value or not value.strip():
@@ -24,8 +23,11 @@ def validate_field(field_name,value, min_length=0, max_length=50, allow_numbers=
         if max_length and len(value) > max_length:
             raise ValueError(f"{field_name.capitalize()} cannot exceed {max_length} characters.")
         
-        if re.search(r"['\";=()--/*]", value):
-            raise ValueError(f"{field_name.capitalize()} contains invalid characters.")
+        sql_keywords = r"(?i)\b(SELECT|INSERT|UPDATE|DELETE|DROP|ALTER|CREATE|EXEC|UNION|AND|OR|--|#|;|/\*|\*/|xp_)\b|(?:\d\s*=\s*\d)"
+        invalid_symbols = r"['\";=()\-/*]"
+
+        if re.search(sql_keywords, value) or re.search(invalid_symbols,value):
+            raise ValueError(f"{field_name.capitalize()} contains potentially harmful SQL injection code.")
         
         return value  # Return the validated value
 
@@ -72,10 +74,6 @@ def update(mortgage_id,name=None,location=None,value=None): #function to update 
 
         if not fields:
             raise ValueError("No fields provided for update.")
-        valid_columns = {'owner', 'location', 'value'}
-        if not set(fields.keys()).issubset(valid_columns):
-            raise ValueError("Invalid column names in the input data.")
-        
         columns = ', '.join(f"{x} = ?" for x in fields.keys())
         query = f"UPDATE mortgage SET {columns} WHERE mortgage_id = ?"
         args = (*fields.values(), mortgage_id)
@@ -104,7 +102,4 @@ def login_user(username,password):
         if result:
               return result
         else:
-            raise CredentialError("Invalid username and password given - no results found in database.")
-
-
-    
+            raise CredentialError("Invalid username and password given - no results found in database.")    
