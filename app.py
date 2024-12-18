@@ -104,7 +104,7 @@ def update_record():
         columns = {k: v for k, v in request.form.items() if k in {'name', 'location', 'value'} and v.strip()}
         if not columns:
             raise ValueError("No values provided for update")  
-        update_outcome = update(mortgage=mortgage_id, **columns)
+        update_outcome = update(mortgage_id=mortgage_id, **columns)
         return redirect(url_for('outcome',message=update_outcome,outcome="Updated Record"))
     return display_template("record-update.html") #display update record template
     
