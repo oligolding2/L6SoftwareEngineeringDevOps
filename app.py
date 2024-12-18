@@ -90,10 +90,11 @@ def display_record():
         if 'search-btn' in request.form and (mortgage_id:=request.form.get('mortgage-id','').strip()):                #determine whether the user wants to display all records or just search individual records
             result = read(mortgage_id,False)              #the parameters for function.read() are different depending on which button is clicked
             return display_template("results.html",results=result)
-        elif 'display-all-btn' in request.form:
+        elif 'display-all-btn' in request.form or ('search-btn' in request.form and 'mortgage-id' in request.form):
             result = read(None,True) #search all records
-            return display_template("results.html",results=result)      
-        raise ButtonError #if the user clicks neither the search nor the display all button, throws an error, unless its the return home button
+            return display_template("results.html",results=result)
+        else:      
+            raise ButtonError #if the user clicks neither the search nor the display all button, throws an error, unless its the return home button
     return display_template("record-display.html") #display display record template
         
 @app.route("/update_record",methods=["POST","GET"])
