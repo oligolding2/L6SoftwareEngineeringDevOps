@@ -8,6 +8,21 @@ from utils.exceptions import *
 import pytest
 from utils.config import Config
 
+def test_validate_field_SQL_injection():
+    scripts = {
+        "1=1",
+        "DROP TABLE users",
+        "'AND 1=1--",
+        "' OR 'a'='a",
+        "') OR ('1'='1"
+    }
+
+    for script in scripts:
+        with pytest.raises(ValueError,match="contains potentially harmful SQL injection code."):
+            print(script)
+            validate_field("script_name",script,min_length=0,max_length=60,allow_numbers=True)
+
+
 def test_validate_field():
         
         # Check that the function is functioning correctly for a valid case
